@@ -8,6 +8,7 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { take } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-category-create',
@@ -43,17 +44,14 @@ export class CategoryCreateComponent implements OnInit {
   }
 
   addCategory() {
-    this.db
-      .list('categories', (ref) =>
-        ref.orderByChild('name').equalTo(this.form.value.name)
-      )
-      .snapshotChanges()
-      .subscribe((categories) => {
-        if (categories.length) {
-          if(confirm("Данная категория уже существует. Применить изменения к ней?")) {
-            this.db.list('categories').set(categories[0].key, this.form.value);
-          }
-        } else this.db.list('categories').push(this.form.value);
+    const category = this.db.object('/categories/' + this.form.value.name);
+    category
+      .valueChanges()
+      .pipe(take(1))
+      .subscribe((result) => {
+        if (result === null || confirm('Данная категория уже существует. Применить изменения к ней?')) {
+          category.set(this.form.value.fields.length ? this.form.value.fields : '');
+        }
       });
   }
 }
