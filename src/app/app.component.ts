@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 
@@ -12,17 +12,13 @@ import { Observable } from 'rxjs';
 export class AppComponent {
   items: Observable<any[]>;
 
-  constructor(public auth: AngularFireAuth, db: AngularFireDatabase) {
-    this.items = db.list('items').valueChanges();
-    this.items.subscribe((items) => {
-      console.log(items);
-    });
-  }
+  constructor(public auth: AngularFireAuth, private router: Router) {}
 
   login() {
     this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
   logout() {
     this.auth.signOut();
+    this.router.navigate(['/goods']);
   }
 }

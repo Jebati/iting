@@ -12,9 +12,23 @@ import { environment } from '../environments/environment';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { GoodsComponent } from './components/goods/goods.component';
+import { GoodCreateComponent } from './components/good-create/good-create.component';
+import { GoodEditComponent } from './components/good-edit/good-edit.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { CategoryCreateComponent } from './components/category-create/category-create.component';
+import { CategoryEditComponent } from './components/category-edit/category-edit.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    GoodsComponent,
+    GoodCreateComponent,
+    GoodEditComponent,
+    CategoriesComponent,
+    CategoryCreateComponent,
+    CategoryEditComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
