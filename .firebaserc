@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "iting-1537d"
+  },
+  "targets": {
+    "iting-1537d": {
+      "hosting": {
+        "iting": [
+          "iting-1537d"
+        ]
+      }
+    }
   }
 }
