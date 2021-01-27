@@ -28,12 +28,14 @@
     <div class="d-flex mb-16">
       <h2 class="m-0 mr-16">Характеристики</h2>
     </div>
-    <div formGroupName="fields" class="d-flex">
-      <div *ngFor="let field of categories[form.value.category]; let i = index">
-        <mat-form-field appearance="outline" class="mr-16">
-          <mat-label>{{ field.key }}</mat-label>
-          <input matInput [formControlName]="field.key" [type]="field.type" />
-        </mat-form-field>
+    <div formArrayName="fields" class="d-flex">
+      <div *ngFor="let field of fields.controls; let i = index">
+        <div [formGroupName]="i">
+          <mat-form-field appearance="outline" class="mr-16">
+            <mat-label>{{ field.value.key }}</mat-label>
+            <input matInput formControlName="value" [type]="field.value.type" />
+          </mat-form-field>
+        </div>
       </div>
     </div>
   </ng-container>

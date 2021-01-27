@@ -16,7 +16,7 @@ export class CategoryEditComponent implements OnInit, OnDestroy {
   private category: AngularFireObject<unknown>;
   private categoryName: string;
   public form: FormGroup = this.fb.group({
-    name: [{ value: null, disabled: true }, [Validators.required]],
+    name: ['', [Validators.required]],
     fields: this.fb.array([]),
   });
 
@@ -31,7 +31,7 @@ export class CategoryEditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     this.subscription.add(
-      route.params.pipe(take(1)).subscribe(({ categoryName }) => {
+      this.route.params.pipe(take(1)).subscribe(({ categoryName }) => {
         this.categoryName = categoryName;
       })
     );

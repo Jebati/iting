@@ -1,1 +1,48 @@
-<p>good-edit works!</p>
+<h1>Изменение товара</h1>
+
+<form [formGroup]="form">
+  <mat-form-field appearance="outline" class="mr-16">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" readonly />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mr-16">
+    <mat-label>Категория</mat-label>
+    <input matInput formControlName="category" readonly />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Цена, ₽</mat-label>
+    <input matInput formControlName="price" type="number" min="0" />
+  </mat-form-field>
+  <ng-container *ngIf="fields.value.length">
+    <div class="d-flex mb-16">
+      <h2 class="m-0 mr-16">Характеристики</h2>
+    </div>
+    <div formGroupName="fields" class="d-flex">
+      <div *ngFor="let field of fields.controls; let i = index">
+        <div [formGroupName]="i">
+          <mat-form-field appearance="outline" class="mr-16">
+            <mat-label>{{ field.key }}</mat-label>
+            <input matInput formControlName="value" [type]="field.value.type" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="form.invalid || !form.dirty"
+      class="mt-16 mr-16"
+      (click)="saveGood()"
+    >
+      Сохранить
+    </button>
+    <button mat-flat-button color="warn" class="mt-16" (click)="deleteGood()">
+      Удалить
+    </button>
+  </div>
+</form>

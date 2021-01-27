@@ -19,11 +19,11 @@ export class GoodCreateComponent implements OnInit {
     category: ['', [Validators.required]],
     price: ['', [Validators.required, Validators.min(0)]],
     count: [0],
-    fields: this.fb.group({}),
+    fields: this.fb.array([]),
   });
 
-  public get fields(): FormGroup {
-    return <FormGroup>this.form.controls.fields;
+  public get fields(): FormArray {
+    return <FormArray>this.form.controls.fields;
   }
 
   constructor(
@@ -48,15 +48,23 @@ export class GoodCreateComponent implements OnInit {
     );
   }
 
-  addField(key = '') {
-    this.fields.addControl(key, this.fb.control('', [Validators.required]));
+  addField(key, type) {
+    this.fields.push(
+      this.fb.group({
+        key,
+        type,
+        value: this.fb.control('', [Validators.required]),
+      })
+    );
   }
 
   categoryChange() {
     const category = this.form.value.category;
-    for (let field in this.fields.controls) this.fields.removeControl(field);
+    this.fields.controls.forEach(() => this.fields.removeAt(0));
     if (this.categories[category])
-      this.categories[category].forEach(({ key }) => this.addField(key));
+      this.categories[category].forEach(({ key, type }) =>
+        this.addField(key, type)
+      );
   }
 
   addGood() {
