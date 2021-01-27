@@ -1,1 +1,52 @@
-<p>good-create works!</p>
+<h1>Добавление товара</h1>
+
+<form [formGroup]="form">
+  <mat-form-field appearance="outline" class="mr-16">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mr-16">
+    <mat-label>Категория</mat-label>
+    <mat-select formControlName="category" (selectionChange)="categoryChange()">
+      <mat-option
+        *ngFor="let category of categories | keyvalue"
+        [value]="category.key"
+        >{{ category.key }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Цена, ₽</mat-label>
+    <input matInput formControlName="price" type="number" min="0" />
+  </mat-form-field>
+
+  <ng-container
+    *ngIf="form.value.category && categories[form.value.category].length"
+  >
+    <div class="d-flex mb-16">
+      <h2 class="m-0 mr-16">Характеристики</h2>
+    </div>
+    <div formGroupName="fields" class="d-flex">
+      <div *ngFor="let field of categories[form.value.category]; let i = index">
+        <mat-form-field appearance="outline" class="mr-16">
+          <mat-label>{{ field.key }}</mat-label>
+          <input matInput [formControlName]="field.key" [type]="field.type" />
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-container>
+
+  <div>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="form.invalid"
+      class="mt-16"
+      (click)="addGood()"
+    >
+      Добавить
+    </button>
+  </div>
+</form>

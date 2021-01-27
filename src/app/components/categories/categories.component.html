@@ -1,4 +1,4 @@
-<div class="text-align-center">
+<div class="text-align-center" *ngIf="auth.user | async as user">
   <button
     mat-flat-button
     color="primary"
@@ -15,11 +15,12 @@
   <h2 class="m-0">{{ category.key }}</h2>
   <div class="spacer"></div>
   <button
-    mat-flat-button
+    *ngIf="auth.user | async as user"
+    mat-mini-fab
     color="accent"
     class="ml-16"
     [routerLink]="['/category/edit', category.key]"
   >
-    Изменить
+    <mat-icon>edit</mat-icon>
   </button>
 </div>

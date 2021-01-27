@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/entities/categories.entity';
@@ -12,7 +13,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   public categories: Category[];
 
-  constructor(private db: AngularFireDatabase) {}
+  constructor(private db: AngularFireDatabase, public auth: AngularFireAuth) {}
 
   ngOnInit(): void {
     this.subscription.add(
