@@ -33,7 +33,7 @@ const routes: Routes = [
         ...canActivate(redirectUnauthorizedToCategories),
       },
       {
-        path: 'edit/:categoryId',
+        path: 'edit/:categoryName',
         component: CategoryEditComponent,
         ...canActivate(redirectUnauthorizedToCategories),
       },
@@ -53,7 +53,7 @@ const routes: Routes = [
         ...canActivate(redirectUnauthorizedToGoods),
       },
       {
-        path: 'edit/:goodId',
+        path: 'edit/:goodName',
         component: GoodEditComponent,
         ...canActivate(redirectUnauthorizedToGoods),
       },

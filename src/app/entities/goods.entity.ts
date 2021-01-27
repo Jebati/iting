@@ -8,15 +8,8 @@ export class Good {
 
 export class GoodField {
   key: string;
-  type: FieldType;
+  type: string;
   value: string;
-}
-
-export enum FieldType {
-  text,
-  number,
-  date,
-  datetime,
 }
 
 export class GoodEvent {

@@ -24,6 +24,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { CategoryCreateComponent } from './components/category-create/category-create.component';
 import { CategoryEditComponent } from './components/category-edit/category-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatSelectModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/entities/categories.entity';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormArray,
-  FormBuilder,
-} from '@angular/forms';
+import { FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { take } from 'rxjs/internal/operators';
+import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-category-create',
@@ -26,7 +21,11 @@ export class CategoryCreateComponent implements OnInit {
     return <FormArray>this.form.controls.fields;
   }
 
-  constructor(private fb: FormBuilder, private db: AngularFireDatabase) {}
+  constructor(
+    private fb: FormBuilder,
+    private db: AngularFireDatabase,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -34,7 +33,7 @@ export class CategoryCreateComponent implements OnInit {
     this.fields.push(
       this.fb.group({
         key: ['', [Validators.required]],
-        type: ['0'],
+        type: ['number'],
       })
     );
   }
@@ -49,8 +48,14 @@ export class CategoryCreateComponent implements OnInit {
       .valueChanges()
       .pipe(take(1))
       .subscribe((result) => {
-        if (result === null || confirm('Данная категория уже существует. Применить изменения к ней?')) {
-          category.set(this.form.value.fields.length ? this.form.value.fields : '');
+        if (
+          result === null ||
+          confirm('Данная категория уже существует. Применить изменения к ней?')
+        ) {
+          category.set(
+            this.form.value.fields.length ? this.form.value.fields : ''
+          );
+          this.router.navigate(['/categories']);
         }
       });
   }

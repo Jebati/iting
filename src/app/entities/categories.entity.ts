@@ -5,12 +5,5 @@ export class Category {
 
 export class CategoryField {
   key: string;
-  type: FieldType;
-}
-
-export enum FieldType {
-  text,
-  number,
-  date,
-  datetime,
+  type: string;
 }

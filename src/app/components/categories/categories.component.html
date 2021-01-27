@@ -1,1 +1,25 @@
-<p>categories works!</p>
+<div class="text-align-center">
+  <button
+    mat-flat-button
+    color="primary"
+    class="mb-16"
+    routerLink="/category/create"
+  >
+    Добавить категорию
+  </button>
+</div>
+<div
+  *ngFor="let category of categories | keyvalue"
+  class="d-flex d-flex-baseline mt-16"
+>
+  <h2 class="m-0">{{ category.key }}</h2>
+  <div class="spacer"></div>
+  <button
+    mat-flat-button
+    color="accent"
+    class="ml-16"
+    [routerLink]="['/category/edit', category.key]"
+  >
+    Изменить
+  </button>
+</div>

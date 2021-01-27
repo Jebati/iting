@@ -10,9 +10,26 @@ body {
   flex: 1 1 auto;
 }
 
+.text-align {
+  &-right {
+    text-align: right;
+  }
+  &-center {
+    text-align: center;
+  }
+}
+
 .d-flex {
   display: flex;
   align-items: center;
+
+  &-center {
+    justify-content: center;
+  }
+
+  &-baseline {
+    align-items: baseline;
+  }
 }
 
 .m-0 {
@@ -23,10 +40,14 @@ body {
   margin-right: 16px !important;
 }
 
+.ml-16 {
+  margin-left: 16px !important;
+}
+
 .mt-16 {
-  margin-top: 16px;
+  margin-top: 16px !important;
 }
 
 .mb-16 {
-  margin-bottom: 16px;
+  margin-bottom: 16px !important;
 }

@@ -1,1 +1,51 @@
-<p>category-edit works!</p>
+<h1>Изменение категории</h1>
+
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <div class="d-flex mb-16">
+    <h2 class="m-0 mr-16">Характеристики</h2>
+    <button mat-icon-button (click)="addField()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div formArrayName="fields">
+    <div *ngFor="let field of fields.controls; let i = index">
+      <div>
+        <div [formGroupName]="i">
+          <mat-form-field appearance="outline" class="mr-16">
+            <mat-label>Тип</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="text">Строка</mat-option>
+              <mat-option value="number">Число</mat-option>
+              <mat-option value="data">Дата</mat-option>
+              <mat-option value="datatime">Дата и время</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="mr-16">
+            <mat-label>Характеристика</mat-label>
+            <input matInput formControlName="key" />
+            <button mat-icon-button matSuffix (click)="removeField(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    mat-flat-button
+    color="accent"
+    [disabled]="form.invalid || !form.dirty"
+    class="mt-16 mr-16"
+    (click)="saveCategory()"
+  >
+    Сохранить
+  </button>
+  <button mat-flat-button color="warn" class="mt-16" (click)="deleteCategory()">
+    Удалить
+  </button>
+</form>
