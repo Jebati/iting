@@ -30,6 +30,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { GoodIntakeComponent } from './components/good-intake/good-intake.component';
 import { DatePipe } from '@angular/common';
 import { GoodOuttakeComponent } from './components/good-outtake/good-outtake.component';
+import { GoodStatisticsComponent } from './components/good-statistics/good-statistics.component';
+import { AuthComponent } from './components/auth/auth.component';
+
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 @NgModule({
   declarations: [
@@ -42,12 +46,18 @@ import { GoodOuttakeComponent } from './components/good-outtake/good-outtake.com
     CategoryEditComponent,
     GoodIntakeComponent,
     GoodOuttakeComponent,
+    GoodStatisticsComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
+    NgxAuthFirebaseUIModule.forRoot(environment.firebase, undefined, {
+      toastMessageOnAuthSuccess: false,
+      toastMessageOnAuthError: false,
+    }),
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
     MatInputModule,

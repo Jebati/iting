@@ -30,7 +30,7 @@
         mat-icon-button
         class="ml-8"
         matTooltip="Статистика"
-        [routerLink]="['/good/edit/', category.key, good.key]"
+        (click)="statistics(good.value)"
       >
         <mat-icon>insert_chart_outlined</mat-icon>
       </button>

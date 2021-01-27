@@ -7,6 +7,7 @@ import { Category } from 'src/app/entities/categories.entity';
 import { Good } from 'src/app/entities/goods.entity';
 import { GoodIntakeComponent } from '../good-intake/good-intake.component';
 import { GoodOuttakeComponent } from '../good-outtake/good-outtake.component';
+import { GoodStatisticsComponent } from '../good-statistics/good-statistics.component';
 
 @Component({
   selector: 'app-goods',
@@ -40,6 +41,10 @@ export class GoodsComponent implements OnInit {
 
   openOutTake(good: Good) {
     this.dialog.open(GoodOuttakeComponent, { data: good });
+  }
+
+  statistics(good: Good) {
+    this.dialog.open(GoodStatisticsComponent, { data: good });
   }
 
   ngOnDestroy(): void {

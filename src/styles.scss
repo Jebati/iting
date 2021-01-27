@@ -62,3 +62,12 @@ body {
 button {
   box-shadow: none !important;
 }
+
+.mat-card {
+  margin: 0 !important;
+}
+
+.mat-form-field-suffix {
+  display: flex !important;
+  align-items: baseline !important;
+}

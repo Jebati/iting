@@ -27,8 +27,12 @@ export class GoodOuttakeComponent {
   ) {}
 
   outTake() {
+    const value = this.form.value;
     const count = this.db.object(`goods/${this.good.category}/${this.good.name}/count`);
-    count.valueChanges().pipe(take(1)).subscribe((result: number) => count.set(result - this.form.value.count));
+    count.valueChanges().pipe(take(1)).subscribe((result: number) => count.set(result - value.count));
+
+    this.db.list(`statistics/${this.good.category}/${this.good.name}`).push({ ...value, type: 1 });
+
     this.dialogRef.close();
   }
 }
