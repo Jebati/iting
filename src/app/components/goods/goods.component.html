@@ -38,7 +38,7 @@
         *ngIf="auth.user | async as user"
         mat-icon-button
         matTooltip="Поступление"
-        [routerLink]="['/good/edit/', category.key, good.key]"
+        (click)="openInTake(good.value)"
       >
         <mat-icon>add_circle_outline</mat-icon>
       </button>
@@ -46,7 +46,8 @@
         *ngIf="auth.user | async as user"
         mat-icon-button
         matTooltip="Отгрузка"
-        [routerLink]="['/good/edit/', category.key, good.key]"
+        [disabled]="!good.value.count"
+        (click)="openOutTake(good.value)"
       >
         <mat-icon>remove_circle_outline</mat-icon>
       </button>

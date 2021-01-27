@@ -1,6 +1,6 @@
 export class Good {
   name: string;
-  categoryId: string;
+  category: string;
   fields: GoodField[];
   count: number;
   price: number;

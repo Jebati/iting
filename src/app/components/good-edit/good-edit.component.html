@@ -23,7 +23,7 @@
       <div *ngFor="let field of fields.controls; let i = index">
         <div [formGroupName]="i">
           <mat-form-field appearance="outline" class="mr-16">
-            <mat-label>{{ field.key }}</mat-label>
+            <mat-label>{{ field.value.key }}</mat-label>
             <input matInput formControlName="value" [type]="field.value.type" />
           </mat-form-field>
         </div>

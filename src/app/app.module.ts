@@ -26,6 +26,10 @@ import { CategoryEditComponent } from './components/category-edit/category-edit.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { GoodIntakeComponent } from './components/good-intake/good-intake.component';
+import { DatePipe } from '@angular/common';
+import { GoodOuttakeComponent } from './components/good-outtake/good-outtake.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CategoriesComponent,
     CategoryCreateComponent,
     CategoryEditComponent,
+    GoodIntakeComponent,
+    GoodOuttakeComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,8 +60,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatSnackBarModule,
     MatTooltipModule,
+    MatDialogModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
