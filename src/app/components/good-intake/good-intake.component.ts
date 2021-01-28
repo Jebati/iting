@@ -40,7 +40,11 @@ export class GoodIntakeComponent implements OnInit {
 
   inTake() {
     const value = this.form.value;
-    value.date = new Date(value.date).getTime();
+    const date = new Date(value.date);
+    date.setHours(0);
+    date.setSeconds(0);
+    date.setMinutes(0);
+    date.setMilliseconds(0);
 
     const count = this.db.object(
       `goods/${this.good.category}/${this.good.name}/count`
@@ -51,7 +55,9 @@ export class GoodIntakeComponent implements OnInit {
       .subscribe((result) => count.set(result + value.count));
 
     this.db
-      .list(`statistics/${this.good.category}/${this.good.name}`)
+      .list(
+        `statistics/${this.good.category}/${this.good.name}/${date.getTime()}`
+      )
       .push({ ...value, type: 0, dst: this.displayName });
 
     this.dialogRef.close();
