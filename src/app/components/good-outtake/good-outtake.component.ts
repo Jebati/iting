@@ -43,6 +43,8 @@ export class GoodOuttakeComponent implements OnInit {
 
   outTake() {
     const value = this.form.value;
+    value.date = new Date(value.date).getTime();
+
     const count = this.db.object(
       `goods/${this.good.category}/${this.good.name}/count`
     );
