@@ -61,6 +61,7 @@ export class GoodCreateComponent implements OnInit {
   categoryChange() {
     const category = this.form.value.category;
     this.fields.controls.forEach(() => this.fields.removeAt(0));
+    this.form.controls.fields = this.fb.array([]);
     if (this.categories[category])
       this.categories[category].forEach(({ key, type }) =>
         this.addField(key, type)
