@@ -32,6 +32,7 @@ import { DatePipe } from '@angular/common';
 import { GoodOuttakeComponent } from './components/good-outtake/good-outtake.component';
 import { GoodStatisticsComponent } from './components/good-statistics/good-statistics.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
@@ -71,6 +72,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
     MatSnackBarModule,
     MatTooltipModule,
     MatDialogModule,
+    MatMenuModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
