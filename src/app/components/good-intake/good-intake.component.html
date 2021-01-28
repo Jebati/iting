@@ -1,7 +1,9 @@
 <h1>Поступление</h1>
 <div>
-  <span>Товар: {{ good.name }}</span><br />
-  <span>Категория: {{ good.category }}</span><br /><br />
+  <span>Товар: {{ good.name }}</span
+  ><br />
+  <span>Категория: {{ good.category }}</span
+  ><br /><br />
   <span>Цена: {{ good.price }}₽</span><br />
   <span>Уже имеется: {{ good.count }}шт.</span><br />
   <span>На сумму: {{ good.price * good.count }}₽</span><br /><br />
@@ -15,6 +17,16 @@
   </div>
   <div>
     <form [formGroup]="form">
+      <div>
+        <mat-form-field appearance="outline" class="mr-16">
+          <mat-label>Поставщик</mat-label>
+          <input matInput type="text" minlength="1" formControlName="src" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="mr-16">
+          <mat-label>Приемщик</mat-label>
+          <input matInput readonly [value]="displayName" />
+        </mat-form-field>
+      </div>
       <mat-form-field appearance="outline" class="mr-16">
         <mat-label>Количество</mat-label>
         <input matInput type="number" min="1" formControlName="count" />
@@ -26,5 +38,12 @@
     </form>
   </div>
   <span>На сумму: {{ good.price * form.value.count }}₽</span><br /><br />
-  <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="inTake()">Поступило</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="inTake()"
+  >
+    Поступило
+  </button>
 </div>

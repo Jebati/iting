@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,11 +12,18 @@ import { Good } from 'src/app/entities/goods.entity';
   templateUrl: './good-outtake.component.html',
   styleUrls: ['./good-outtake.component.scss'],
 })
-export class GoodOuttakeComponent {
-
+export class GoodOuttakeComponent implements OnInit {
+  displayName: string;
   form: FormGroup = this.fb.group({
-    count: [1, [Validators.required, Validators.min(1), Validators.max(this.good.count)]],
-    date: [this.datePipe.transform(new Date(), "yyyy-MM-ddTHH:mm"), [Validators.required]]
+    dst: ['', [Validators.required, Validators.minLength(1)]],
+    count: [
+      1,
+      [Validators.required, Validators.min(1), Validators.max(this.good.count)],
+    ],
+    date: [
+      this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm'),
+      [Validators.required],
+    ],
   });
 
   constructor(
@@ -23,15 +31,29 @@ export class GoodOuttakeComponent {
     @Inject(MAT_DIALOG_DATA) public good: Good,
     private fb: FormBuilder,
     private datePipe: DatePipe,
+    public auth: AngularFireAuth,
     private db: AngularFireDatabase
   ) {}
 
+  ngOnInit() {
+    this.auth.user.pipe(take(1)).subscribe(({ displayName }) => {
+      this.displayName = displayName;
+    });
+  }
+
   outTake() {
     const value = this.form.value;
-    const count = this.db.object(`goods/${this.good.category}/${this.good.name}/count`);
-    count.valueChanges().pipe(take(1)).subscribe((result: number) => count.set(result - value.count));
+    const count = this.db.object(
+      `goods/${this.good.category}/${this.good.name}/count`
+    );
+    count
+      .valueChanges()
+      .pipe(take(1))
+      .subscribe((result: number) => count.set(result - value.count));
 
-    this.db.list(`statistics/${this.good.category}/${this.good.name}`).push({ ...value, type: 1 });
+    this.db
+      .list(`statistics/${this.good.category}/${this.good.name}`)
+      .push({ ...value, type: 1, src: this.displayName });
 
     this.dialogRef.close();
   }
