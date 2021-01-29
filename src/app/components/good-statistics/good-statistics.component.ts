@@ -32,22 +32,6 @@ export class GoodStatisticsComponent implements OnInit {
 
     const dates = this.getDates();
 
-    const chart = c3.generate({
-      bindto: '#chart',
-      data: {
-        x: 'x',
-        columns: [],
-      },
-      axis: {
-        x: {
-          type: 'timeseries',
-          tick: {
-            format: '%Y-%m-%d',
-          },
-        },
-      },
-    });
-
     this.db
       .list(`statistics/${this.good.category}/${this.good.name}`, (ref) =>
         ref.orderByKey().startAt(String(Date.now() - 2764800000))
@@ -56,12 +40,41 @@ export class GoodStatisticsComponent implements OnInit {
       .pipe(take(1))
       .subscribe((result) => {
         const { retIntake, retOuttake } = this.getDataByDays(dates, result);
-        chart.load({
-          columns: [
-            ['x', ...dates],
-            ['Поступления', ...retIntake],
-            ['Отгрузки', ...retOuttake],
-          ],
+
+        c3.generate({
+          size: {
+            width: 1000,
+          },
+          bindto: '#chart',
+          data: {
+            x: 'x',
+            columns: [
+              ['x', ...dates],
+              ['Поступления', ...retIntake],
+              ['Отгрузки', ...retOuttake],
+            ],
+            type: 'bar',
+          },
+          axis: {
+            x: {
+              label: 'Дата',
+              type: 'timeseries',
+              tick: {
+                fit: true,
+                format: '%d.%m',
+                culling: {
+                  max: 31,
+                },
+              },
+            },
+            y: {
+              center: 0,
+              label: 'Количество',
+              tick: {
+                format: d => (Number.isInteger(d) ? d : ''),
+              },
+            },
+          },
         });
       });
   }

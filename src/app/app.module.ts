@@ -33,6 +33,7 @@ import { GoodOuttakeComponent } from './components/good-outtake/good-outtake.com
 import { GoodStatisticsComponent } from './components/good-statistics/good-statistics.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
@@ -73,6 +74,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
     MatTooltipModule,
     MatDialogModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
