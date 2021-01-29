@@ -45,6 +45,9 @@ export class GoodStatisticsComponent implements OnInit {
           size: {
             width: 1000,
           },
+          color: {
+            pattern: ['#ffd740', '#f44336'],
+          },
           bindto: '#chart',
           data: {
             x: 'x',
@@ -71,7 +74,7 @@ export class GoodStatisticsComponent implements OnInit {
               center: 0,
               label: 'Количество',
               tick: {
-                format: d => (Number.isInteger(d) ? d : ''),
+                format: (d) => (Number.isInteger(d) ? d : ''),
               },
             },
           },
