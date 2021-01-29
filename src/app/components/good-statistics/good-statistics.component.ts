@@ -29,23 +29,14 @@ export class GoodStatisticsComponent implements OnInit {
         ],
       },
     });*/
-    c3.generate({
+
+    const dates = this.getDates();
+
+    const chart = c3.generate({
       bindto: '#chart',
       data: {
         x: 'x',
-        columns: [
-          [
-            'x',
-            '2013-01-01',
-            '2013-01-02',
-            '2013-01-03',
-            '2013-01-04',
-            '2013-01-05',
-            '2013-01-06',
-          ],
-          ['Поступления', 30, 200, 100, 400, 150, 250],
-          ['Отгрузки', 130, 340, 200, 500, 250, 350],
-        ],
+        columns: [],
       },
       axis: {
         x: {
@@ -64,7 +55,56 @@ export class GoodStatisticsComponent implements OnInit {
       .valueChanges()
       .pipe(take(1))
       .subscribe((result) => {
-        console.log(result);
+        const { retIntake, retOuttake } = this.getDataByDays(dates, result);
+        chart.load({
+          columns: [
+            ['x', ...dates],
+            ['Поступления', ...retIntake],
+            ['Отгрузки', ...retOuttake],
+          ],
+        });
       });
+  }
+
+  getDates() {
+    const date = new Date();
+    const dates = [];
+
+    date.setDate(date.getDate() - 31);
+
+    for (let i = 0; i < 31; i++) {
+      date.setDate(date.getDate() + 1);
+      dates.push(this.datePipe.transform(date, 'yyyy-MM-dd'));
+    }
+    return dates;
+  }
+
+  getDataByDays(dates: string[], data) {
+    const intake = [];
+    const outtake = [];
+
+    for (let day in data) {
+      for (let even in data[day]) {
+        const event = data[day][even];
+        const date = this.datePipe.transform(event.date, 'yyyy-MM-dd');
+        if (event.type) {
+          if (outtake[date] === undefined) outtake[date] = 0;
+          outtake[date] += event.count;
+        } else {
+          if (intake[date] === undefined) intake[date] = 0;
+          intake[date] += event.count;
+        }
+      }
+    }
+
+    const retIntake = [];
+    const retOuttake = [];
+
+    for (const date of dates) {
+      retIntake.push(intake[date] === undefined ? 0 : intake[date]);
+      retOuttake.push(outtake[date] === undefined ? 0 : outtake[date]);
+    }
+
+    return { retIntake, retOuttake };
   }
 }
