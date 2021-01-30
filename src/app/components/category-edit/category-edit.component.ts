@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./category-edit.component.scss'],
 })
 export class CategoryEditComponent implements OnInit, OnDestroy {
-  private subscription: Subscription = new Subscription();
+  private subscription: Subscription = new Subscription(); 
   private category: AngularFireObject<unknown>;
   private categoryName: string;
   public form: FormGroup = this.fb.group({

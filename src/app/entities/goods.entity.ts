@@ -11,14 +11,3 @@ export class GoodField {
   type: string;
   value: string;
 }
-
-export class GoodEvent {
-  date: string;
-  type: GoodEventType;
-  count: number;
-}
-
-export enum GoodEventType {
-  in,
-  out,
-}
