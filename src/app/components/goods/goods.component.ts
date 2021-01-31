@@ -16,7 +16,7 @@ import { GoodStatisticsComponent } from '../good-statistics/good-statistics.comp
 })
 export class GoodsComponent implements OnInit {
   private subscription: Subscription = new Subscription();
-  public categories;
+  public goods = [];
 
   constructor(
     private db: AngularFireDatabase,
@@ -29,8 +29,11 @@ export class GoodsComponent implements OnInit {
       this.db
         .object('goods')
         .valueChanges()
-        .subscribe((categories) => {
-          this.categories = categories || {};
+        .subscribe((categories: any) => {
+          this.goods = [];
+          for (let category in categories)
+            for (let good in categories[category])
+              this.goods.push(categories[category][good]);
         })
     );
   }

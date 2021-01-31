@@ -8,58 +8,58 @@
     Добавить товар
   </button>
 </div>
-<ng-container *ngFor="let category of categories | keyvalue">
-  <div
-    *ngFor="let good of category.value | keyvalue"
-    class="d-flex d-flex-center mt-16"
-  >
-    <div class="d-flex">
-      <div class="d-flex d-flex-baseline" style="width: 100%">
-        <h2 class="m-0">{{ good.key }}</h2>
-        <h5 class="m-0" title="Категория">&nbsp;&nbsp;{{ category.key }}</h5>
+
+<virtual-scroller #scroll [items]="goods" [parentScroll]="scroll.window">
+  <div #container>
+    <div *ngFor="let good of scroll.viewPortItems" class="d-flex d-flex-center mt-16">
+      <div class="d-flex">
+        <div class="d-flex d-flex-baseline" style="width: 100%">
+          <h2 class="m-0">{{ good.name }}</h2>
+          <h5 class="m-0" title="Категория">&nbsp;&nbsp;{{ good.category }}</h5>
+        </div>
+        <div class="d-flex d-flex-baseline">
+          <h5 class="m-0">Количество: {{ good.count }}</h5>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <h5 class="m-0">Цена: {{ good.price }}₽</h5>
+        </div>
       </div>
-      <div class="d-flex d-flex-baseline">
-        <h5 class="m-0">Количество: {{ good.value.count }}</h5>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <h5 class="m-0">Цена: {{ good.value.price }}₽</h5>
+      <div class="spacer"></div>
+      <div class="d-flex">
+        <button
+          mat-icon-button
+          class="ml-8"
+          matTooltip="Статистика"
+          (click)="statistics(good)"
+        >
+          <mat-icon>insert_chart_outlined</mat-icon>
+        </button>
+        <button
+          *ngIf="auth.user | async as user"
+          mat-icon-button
+          matTooltip="Поступление"
+          (click)="openInTake(good)"
+        >
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+        <button
+          *ngIf="auth.user | async as user"
+          mat-icon-button
+          matTooltip="Отгрузка"
+          [disabled]="!good.count"
+          (click)="openOutTake(good)"
+        >
+          <mat-icon>remove_circle_outline</mat-icon>
+        </button>
+        <button
+          *ngIf="auth.user | async as user"
+          mat-mini-fab
+          color="accent"
+          class="ml-8"
+          [routerLink]="['/good/edit/', good.category, good.name]"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
       </div>
-    </div>
-    <div class="spacer"></div>
-    <div class="d-flex">
-      <button
-        mat-icon-button
-        class="ml-8"
-        matTooltip="Статистика"
-        (click)="statistics(good.value)"
-      >
-        <mat-icon>insert_chart_outlined</mat-icon>
-      </button>
-      <button
-        *ngIf="auth.user | async as user"
-        mat-icon-button
-        matTooltip="Поступление"
-        (click)="openInTake(good.value)"
-      >
-        <mat-icon>add_circle_outline</mat-icon>
-      </button>
-      <button
-        *ngIf="auth.user | async as user"
-        mat-icon-button
-        matTooltip="Отгрузка"
-        [disabled]="!good.value.count"
-        (click)="openOutTake(good.value)"
-      >
-        <mat-icon>remove_circle_outline</mat-icon>
-      </button>
-      <button
-        *ngIf="auth.user | async as user"
-        mat-mini-fab
-        color="accent"
-        class="ml-8"
-        [routerLink]="['/good/edit/', category.key, good.key]"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
     </div>
   </div>
-</ng-container>
+</virtual-scroller>

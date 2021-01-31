@@ -36,6 +36,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
     MatDialogModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    VirtualScrollerModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
