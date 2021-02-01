@@ -20,33 +20,24 @@ export class GoodStatisticsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    /*c3.generate({
-      bindto: '#chart',
-      data: {
-        columns: [
-          ['Поступление', 30, 200, 100, 400, 150, 250],
-          ['Отгрузка', 50, 20, 10, 40, 15, 25],
-        ],
-      },
-    });*/
-
     const dates = this.getDates();
 
     this.db
-      .list(`statistics/${this.good.category}/${this.good.name}`, (ref) =>
-        ref.orderByKey().startAt(String(Date.now() - 2764800000))
-      )
+      .object(`statistics/${this.good.category}/${this.good.name}`)
       .valueChanges()
       .pipe(take(1))
       .subscribe((result) => {
-        const { retIntake, retOuttake } = this.getDataByDays(dates, result);
+        const { retIntake, retOuttake, retCounts } = this.getDataByDays(
+          dates,
+          result
+        );
 
         c3.generate({
           size: {
             width: 1000,
           },
           color: {
-            pattern: ['#ffd740', '#f44336'],
+            pattern: ['#ffd740', '#f44336', '#673ab7'],
           },
           bindto: '#chart',
           data: {
@@ -55,8 +46,12 @@ export class GoodStatisticsComponent implements OnInit {
               ['x', ...dates],
               ['Поступления', ...retIntake],
               ['Отгрузки', ...retOuttake],
+              ['Общее количество', ...retCounts],
             ],
             type: 'bar',
+            types: {
+              'Общее количество': 'spline',
+            },
           },
           axis: {
             x: {
@@ -98,29 +93,47 @@ export class GoodStatisticsComponent implements OnInit {
   getDataByDays(dates: string[], data) {
     const intake = [];
     const outtake = [];
+    const counts = [];
+
+    let lastCount = 0;
 
     for (let day in data) {
       for (let even in data[day]) {
         const event = data[day][even];
         const date = this.datePipe.transform(event.date, 'yyyy-MM-dd');
+
+        if (counts[date] == undefined) counts[date] = lastCount;
         if (event.type) {
           if (outtake[date] === undefined) outtake[date] = 0;
           outtake[date] += event.count;
+          counts[date] -= event.count;
         } else {
           if (intake[date] === undefined) intake[date] = 0;
           intake[date] += event.count;
+          counts[date] += event.count;
         }
+        lastCount = counts[date];
       }
     }
 
     const retIntake = [];
     const retOuttake = [];
+    const retCounts = [];
+
+    let retLastCount = 0;
 
     for (const date of dates) {
       retIntake.push(intake[date] === undefined ? 0 : intake[date]);
       retOuttake.push(outtake[date] === undefined ? 0 : outtake[date]);
+
+      if (counts[date] === undefined) {
+        retCounts.push(retLastCount);
+      } else {
+        retCounts.push(counts[date]);
+        retLastCount = counts[date];
+      }
     }
 
-    return { retIntake, retOuttake };
+    return { retIntake, retOuttake, retCounts };
   }
 }
